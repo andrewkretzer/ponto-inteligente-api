@@ -8,7 +8,13 @@ public class PasswordUtils {
 
 	private static final Logger log = LoggerFactory.getLogger(PasswordUtils.class);
 
-	public static String geraBCrypt(String senha) {
+	/**
+	 * Gera um hash utilizando o BCrypt.
+	 * 
+	 * @param senha
+	 * @return String
+	 */
+	public static String gerarBCrypt(String senha) {
 		if (senha == null)
 			return senha;
 
