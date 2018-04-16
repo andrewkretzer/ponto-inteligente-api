@@ -31,12 +31,11 @@ public class FuncionarioServiceTest {
 	private FuncionarioService funcionarioService;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		BDDMockito.given(this.funcionarioRepository.save(Mockito.any(Funcionario.class))).willReturn(new Funcionario());
-		BDDMockito.given(this.funcionarioRepository.findByCpf(Mockito.anyString())).willReturn(new Funcionario());
+		BDDMockito.given(this.funcionarioRepository.findOne(Mockito.anyLong())).willReturn(new Funcionario());
 		BDDMockito.given(this.funcionarioRepository.findByEmail(Mockito.anyString())).willReturn(new Funcionario());
-		BDDMockito.given(this.funcionarioRepository.findById(Mockito.anyLong()))
-				.willReturn(Optional.of(new Funcionario()));
+		BDDMockito.given(this.funcionarioRepository.findByCpf(Mockito.anyString())).willReturn(new Funcionario());
 	}
 
 	@Test
@@ -66,4 +65,5 @@ public class FuncionarioServiceTest {
 
 		assertTrue(funcionario.isPresent());
 	}
+
 }

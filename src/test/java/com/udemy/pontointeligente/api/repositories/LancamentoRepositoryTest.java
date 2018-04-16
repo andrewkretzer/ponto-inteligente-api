@@ -28,25 +28,25 @@ import com.udemy.pontointeligente.api.utils.PasswordUtils;
 @SpringBootTest
 @ActiveProfiles("test")
 public class LancamentoRepositoryTest {
-
+	
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
-
+	
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
-
+	
 	@Autowired
 	private EmpresaRepository empresaRepository;
-
+	
 	private Long funcionarioId;
 
 	@Before
 	public void setUp() throws Exception {
 		Empresa empresa = this.empresaRepository.save(obterDadosEmpresa());
-
+		
 		Funcionario funcionario = this.funcionarioRepository.save(obterDadosFuncionario(empresa));
 		this.funcionarioId = funcionario.getId();
-
+		
 		this.lancamentoRepository.save(obterDadosLancamentos(funcionario));
 		this.lancamentoRepository.save(obterDadosLancamentos(funcionario));
 	}
@@ -59,18 +59,18 @@ public class LancamentoRepositoryTest {
 	@Test
 	public void testBuscarLancamentosPorFuncionarioId() {
 		List<Lancamento> lancamentos = this.lancamentoRepository.findByFuncionarioId(funcionarioId);
-
+		
 		assertEquals(2, lancamentos.size());
 	}
-
+	
 	@Test
 	public void testBuscarLancamentosPorFuncionarioIdPaginado() {
-		PageRequest page = PageRequest.of(0, 10);
+		PageRequest page = new PageRequest(0, 10);
 		Page<Lancamento> lancamentos = this.lancamentoRepository.findByFuncionarioId(funcionarioId, page);
-
+		
 		assertEquals(2, lancamentos.getTotalElements());
 	}
-
+	
 	private Lancamento obterDadosLancamentos(Funcionario funcionario) {
 		Lancamento lancameto = new Lancamento();
 		lancameto.setData(new Date());

@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,7 +24,7 @@ import com.udemy.pontointeligente.api.enums.TipoEnum;
 @Entity
 @Table(name = "lancamento")
 public class Lancamento implements Serializable {
-	
+
 	private static final long serialVersionUID = 6524560251526772839L;
 
 	private Long id;
@@ -39,7 +40,8 @@ public class Lancamento implements Serializable {
 	}
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "lancamento_id_seq")
+	@SequenceGenerator(name = "lancamento_id_seq", sequenceName = "lancamento_id_seq", allocationSize = 1)
 	public Long getId() {
 		return id;
 	}
@@ -66,7 +68,7 @@ public class Lancamento implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 	@Column(name = "localizacao", nullable = true)
 	public String getLocalizacao() {
 		return localizacao;
@@ -112,18 +114,18 @@ public class Lancamento implements Serializable {
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
-	
+
 	@PreUpdate
-    public void preUpdate() {
-        dataAtualizacao = new Date();
-    }
-     
-    @PrePersist
-    public void prePersist() {
-        final Date atual = new Date();
-        dataCriacao = atual;
-        dataAtualizacao = atual;
-    }
+	public void preUpdate() {
+		dataAtualizacao = new Date();
+	}
+
+	@PrePersist
+	public void prePersist() {
+		final Date atual = new Date();
+		dataCriacao = atual;
+		dataAtualizacao = atual;
+	}
 
 	@Override
 	public String toString() {

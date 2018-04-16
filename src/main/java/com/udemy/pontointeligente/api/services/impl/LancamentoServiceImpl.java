@@ -27,22 +27,22 @@ public class LancamentoServiceImpl implements LancamentoService {
 		log.info("Buscando lançamentos para o funcionário ID {}", funcionarioId);
 		return this.lancamentoRepository.findByFuncionarioId(funcionarioId, pageRequest);
 	}
-
+	
 	@Cacheable("lancamentoPorId")
 	public Optional<Lancamento> buscarPorId(Long id) {
 		log.info("Buscando um lançamento pelo ID {}", id);
-		return this.lancamentoRepository.findById(id);
+		return Optional.ofNullable(this.lancamentoRepository.findOne(id));
 	}
-
+	
 	@CachePut("lancamentoPorId")
 	public Lancamento persistir(Lancamento lancamento) {
 		log.info("Persistindo o lançamento: {}", lancamento);
 		return this.lancamentoRepository.save(lancamento);
 	}
-
+	
 	public void remover(Long id) {
 		log.info("Removendo o lançamento ID {}", id);
-		this.lancamentoRepository.deleteById(id);
+		this.lancamentoRepository.delete(id);
 	}
 
 }
